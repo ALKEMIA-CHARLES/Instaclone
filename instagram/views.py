@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from instagram.models import DBUSER, Comments, loggedinUser
+from instagram.forms import Uploadform
 # Create your views here.
 
 def index(request):

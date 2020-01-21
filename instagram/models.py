@@ -33,7 +33,7 @@ class DBUSER(models.Model):
 class loggedinUser(models.Model):
     name = models.CharField(max_length=50)
     age = models.IntegerField(default=0)
-    image = models.ImageField() 
+    image = models.ImageField(upload_to='images/') 
     caption = models.TextField(blank=True)
     Bio = models.TextField(max_length=700)
     dbuser =  models.ForeignKey(DBUSER, on_delete=models.CASCADE, null=True)
@@ -52,6 +52,7 @@ class loggedinUser(models.Model):
 class Comments(models.Model):
     comment = models.TextField(max_length=100)
     loggedin_user_comment = models.ForeignKey(loggedinUser, on_delete=models.CASCADE)
+
 
     
     def __str__(self):
