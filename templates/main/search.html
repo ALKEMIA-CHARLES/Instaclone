@@ -1,0 +1,13 @@
+{%extends "main/base.html"%}
+{%block content%}
+<div class="container">
+    <div class="card" style="width: 18rem;">
+        {%for dbuser in dbusers%}
+        <div class="card-body">
+            <p>{{dbuser.name}}</p>
+             <img src="{{dbuser.image_url}}">
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

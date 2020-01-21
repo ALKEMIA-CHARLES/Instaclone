@@ -26,13 +26,17 @@ class DBUSER(models.Model):
     @classmethod
     def show_db_users(cls):
         return cls.objects.order_by("post_date")[::1]
+    @classmethod
+    def search_dbuser_by_name(cls,search):
+        return cls.objects.filter(name__icontains=search)
+  
 class loggedinUser(models.Model):
     name = models.CharField(max_length=50)
     age = models.IntegerField(default=0)
     image = models.ImageField() 
     caption = models.TextField(blank=True)
     Bio = models.TextField(max_length=700)
-
+    dbuser =  models.ForeignKey(DBUSER, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name, self.image
@@ -43,9 +47,6 @@ class loggedinUser(models.Model):
     def update_caption(self, new_cap):
         self.caption = new_cap
         self.save()
-    @classmethod
-    def search_dbuser_by_name(cls,search):
-        return cls.objects.filter(dbuser__name__icontains=search)
   
 
 class Comments(models.Model):
