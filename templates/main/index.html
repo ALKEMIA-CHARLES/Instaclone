@@ -2,30 +2,25 @@
 {%block content%}
 <div class="container">
     <div class="row">
-      <button type="button" class="btn btn-primary btn-block">Add Image</button>
-    </div>
-    <div class="collapse">
-        <div class="card">
-            <div class="card-body">
-            <form method="POST">
+        <div class="card-body">
+            <form action="{%url 'index' %}" method="POST">
                 {%csrf_token%}
-                {{uploadform.as_p}}
-                <button type="button" class="btn btn-dark">Dark</button>
+                {{Uploadform.as_p}}
+                <button type="submit" class="btn btn-dark">add image</button>
             </form>
-            </div>
         </div>
     </div>
 </div>
-    <div class="contaner">
-        {% for dbuser in dbusers%}
-        <div class="card"></div>
-        <div class="card-body">
-            <p>{{dbuser.name}}</p>
-            <img src="{{dbuser.image_url}}">
-            <p>{{dbuser.db_comment}}</p>
-            <p>{{dbuser.likes}}</p>
-            <p>{{dbuser.post_date}}</p>
-        </div>
-        {%endfor%}
+<div class="contaner">
+    {% for post in posts%}
+    <div class="card"></div>
+    <div class="card-body">
+       <img src={{post.userprofile.image}}>
+        <p>{{post.userprofile.caption}}</p>
+        <p>{{post.name}}</p>
+        <img src="{{post.image_url}}">
+        <p>{{post.db_comment}}</p>
     </div>
+    {%endfor%}
+</div>
 {%endblock%}

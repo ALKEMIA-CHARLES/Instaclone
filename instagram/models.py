@@ -1,7 +1,29 @@
 from django.db import models
+from django.contrib.auth.models import User
 from pyuploadcare.dj.models import ImageField
+
 # Create your models here.
 
+class loggedinUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    age = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='images/') 
+    caption = models.TextField(blank=True)
+    name = models.CharField(max_length=50, null=True)
+    bio = models.TextField(max_length=700)
+
+ 
+
+    def __str__(self):
+        return self.name, self.image
+    def save_loggedin_user(self):
+        return self.save()
+    def delete_post(self):
+        self.delete()
+    def update_caption(self, new_cap):
+        self.caption = new_cap
+        self.save()
+  
 class DBUSER(models.Model):
     name= models.CharField(max_length=100)
     image = models.ImageField()
@@ -9,6 +31,8 @@ class DBUSER(models.Model):
     likes = models.IntegerField(default=0)
     post_date = models.DateTimeField(auto_now_add=True)
     image_url = models.URLField(max_length=250)
+    profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user_profile = models.ForeignKey(loggedinUser, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -29,30 +53,10 @@ class DBUSER(models.Model):
     @classmethod
     def search_dbuser_by_name(cls,search):
         return cls.objects.filter(name__icontains=search)
-  
-class loggedinUser(models.Model):
-    name = models.CharField(max_length=50)
-    age = models.IntegerField(default=0)
-    image = models.ImageField(upload_to='images/') 
-    caption = models.TextField(blank=True)
-    Bio = models.TextField(max_length=700)
-    dbuser =  models.ForeignKey(DBUSER, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.name, self.image
-    def save_loggedin_user(self):
-        return self.save()
-    def delete_post(self):
-        self.delete()
-    def update_caption(self, new_cap):
-        self.caption = new_cap
-        self.save()
-  
-
 class Comments(models.Model):
     comment = models.TextField(max_length=100)
-    loggedin_user_comment = models.ForeignKey(loggedinUser, on_delete=models.CASCADE)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    db_user = models.ForeignKey(DBUSER, on_delete=models.CASCADE, null=True)
 
     
     def __str__(self):
