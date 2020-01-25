@@ -4,18 +4,17 @@ from pyuploadcare.dj.models import ImageField
 
 # Create your models here.
 
-class loggedinUser(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     age = models.IntegerField(default=0)
-    image = models.ImageField(upload_to='images/') 
+    image = models.ImageField(default='default.jpg',upload_to='profile_pics') 
     caption = models.TextField(blank=True)
-    name = models.CharField(max_length=50, null=True)
     bio = models.TextField(max_length=700)
 
  
 
     def __str__(self):
-        return self.name, self.image
+        return f'{self.user.username} Profile'
     def save_loggedin_user(self):
         return self.save()
     def delete_post(self):
@@ -32,7 +31,7 @@ class DBUSER(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)
     image_url = models.URLField(max_length=250)
     profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    user_profile = models.ForeignKey(loggedinUser, on_delete=models.CASCADE, null=True)
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name

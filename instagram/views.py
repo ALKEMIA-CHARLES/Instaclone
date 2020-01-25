@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from instagram.models import DBUSER, Comments, loggedinUser
+from instagram.models import DBUSER, Comments, Profile
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from instagram.forms import Uploadform, Signupform, LoggedinUserform
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -65,9 +66,9 @@ def register(request):
         form = UserCreationForm()
     return render(request, "auth/signup.html", context={'form': form})
 
-
+@login_required
 def profile(request):
-    return render(request, "auth/profile.html")
+    return render(request, "main/profile.html")
 
 def user_logout(request):
     logout(request)

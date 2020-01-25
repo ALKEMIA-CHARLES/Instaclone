@@ -1,5 +1,5 @@
 from django import forms
-from instagram.models import loggedinUser, DBUSER, Comments
+from instagram.models import Profile, DBUSER, Comments
 from pyuploadcare.dj.forms import ImageField
 class Signupform(forms.ModelForm):
     first_name = forms.CharField(label=False, widget=forms.TextInput(attrs={
@@ -14,14 +14,14 @@ class Signupform(forms.ModelForm):
                                                                "placeholder":"Password"}))
 
     class Meta:
-        model = loggedinUser
+        model = Profile
         fields = ("first_name", "last_name", "username", "email", "password",)
 
 class   LoggedinUserform(forms.ModelForm):
      class Meta:
-        model = loggedinUser
+        model = Profile
         fields = ("image",)
 class Uploadform(forms.ModelForm):
     class Meta:
-        model = loggedinUser
+        model = Profile
         fields = ['image', 'caption']
