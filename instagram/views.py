@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from instagram.models import DBUSER, Comments, Profile
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from instagram.forms import Uploadform, Signupform, LoggedinUserform
+from instagram.forms import Uploadform, Signupform, LoggedinUserform, Uploadindexphotoform
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -13,29 +13,8 @@ def index(request):
     posts = DBUSER.objects.all()[::-1]
     current_user = request.user
     comments = Comments.objects.all()
-    try:
-        current_profile = request.user
-    except loggedinUser.DoesNotExist:
-        current_profile = None
-
-    if request.method == "POST":
-        form = Uploadform(request.POST)
-
-        if form.is_valid():
-            post = form.save(commit=False)
-
-            post.profile = current_user
-            post.user_profile = current_profile
-
-            post.save()
-            form = Uploadform()
-            return HttpResponseRedirect(reverse("index"))
-
-    else:
-        form = Uploadform()
-    return render(request, "main/index.html", context={
-                                                        "posts":posts,
-                                                       "Uploadform":Uploadform})
+    return render(request, "main/index.html", context={"posts":posts,
+                                                       })
 
 
 def search(request):
@@ -68,7 +47,15 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, "main/profile.html")
+    if request.method == "POST":
+        form = Uploadindexphotoform(request.POST,request.FILES, instance=request.user.profile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = Uploadindexphotoform(instance=request.user.profile)
+    return render(request, "main/profile.html", context={"form":form})
 
 def user_logout(request):
     logout(request)

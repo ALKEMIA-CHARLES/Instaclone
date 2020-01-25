@@ -1,25 +1,15 @@
 {%extends "main/base.html"%}
 {%block content%}
 <div class="container">
-    <div class="row">
-        <div class="card-body">
-            <form action="{%url 'index' %}" method="POST">
-                {%csrf_token%}
-                {{Uploadform.as_p}}
-                <button type="submit" class="btn btn-dark">add image</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="contaner">
     {% for post in posts%}
-    <div class="card"></div>
-    <div class="card-body">
-       <img src={{post.userprofile.image}}>
-        <p>{{post.userprofile.caption}}</p>
-        <p>{{post.name}}</p>
-        <img src="{{post.image_url}}">
-        <p>{{post.db_comment}}</p>
+    <div class="card">
+        <div class="card-body">
+            <img src={{post.userprofile.image}}>
+            <p>{{post.userprofile.caption}}</p>
+            <p>{{post.name}}</p>
+            <img src="{{post.image_url}}">
+            <p>{{post.db_comment}}</p>
+        </div>
     </div>
     {%endfor%}
 </div>

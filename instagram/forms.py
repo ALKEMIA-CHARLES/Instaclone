@@ -24,4 +24,9 @@ class   LoggedinUserform(forms.ModelForm):
 class Uploadform(forms.ModelForm):
     class Meta:
         model = Profile
+        fields = ['image', 'user', 'bio']
+
+class Uploadindexphotoform(forms.ModelForm):
+    class Meta:
+        model = Profile
         fields = ['image', 'caption']
