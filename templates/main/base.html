@@ -15,22 +15,26 @@
 </head>
 
 <body>
-    <div class="container">
-        <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
             <form action="{%url 'search' %}" method="GET" class="form-inline">
                 <input name='search' class="form-control mr-sm-2" type="search" placeholder="Search"
                     aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <a style="text-align: center;" href="/"> News Feed</a>
-            {% if user.is_autheniticated %}
-            <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register'%}">Register</a>
-        </nav>
-        {%endif %}
-    </div>
+            <div>
+                <a href="/"> News Feed</a>
+            </div>
+            <div>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register'%}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
     {%block content%}
     {%endblock%}
 
