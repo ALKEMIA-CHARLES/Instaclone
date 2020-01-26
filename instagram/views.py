@@ -6,6 +6,7 @@ from instagram.forms import Uploadform, Signupform, LoggedinUserform, Uploadinde
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -16,6 +17,16 @@ def index(request):
     return render(request, "main/index.html", context={"posts":posts,
                                                        })
 
+
+class DbListView(ListView):
+    model = DBUSER
+    template_name = 'main/index.html'
+    context_object_name = 'posts'
+    ordering = ['-post_date']
+
+class DbDetailView(DetailView):
+    model = DBUSER
+    template_name = 'main/detail.html'
 
 def search(request):
     if request.method == "GET":

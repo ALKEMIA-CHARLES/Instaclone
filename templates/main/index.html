@@ -6,7 +6,7 @@
         <div class="card-body">
             <img src={{post.userprofile.image}}>
             <p>{{post.userprofile.caption}}</p>
-            <p>{{post.name}}</p>
+            <p> <a href="{% url 'post-detail' post.id %}">{{post.name}} </a> </p>
             <img src="{{post.image_url}}">
             <p>{{post.db_comment}}</p>
         </div>
