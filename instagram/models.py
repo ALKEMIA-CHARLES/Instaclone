@@ -5,6 +5,15 @@ from PIL import Image
 from django.urls import reverse
 # Create your models here.
 
+class Pictures(models.Model):
+    image_url = models.URLField(max_length=250, null=True)
+    caption = models.TextField(max_length=250, null=True)
+    post_date = models.DateTimeField(auto_now_add=True, null=True)
+
+    @classmethod
+    def show_pictures(cls):
+        return cls.objects.order_by("post_date")[::1]
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     age = models.IntegerField(default=0)

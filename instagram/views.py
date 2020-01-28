@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from instagram.models import DBUSER, Comments, Profile
+from instagram.models import DBUSER, Comments, Profile, Pictures
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from instagram.forms import Uploadform, Signupform, LoggedinUserform, Uploadindexphotoform
@@ -57,6 +57,7 @@ def register(request):
 
 @login_required
 def profile(request):
+    pics = Pictures.objects.all()[::1]
     if request.method == "POST":
         form = Uploadindexphotoform(request.POST,request.FILES, instance=request.user.profile)
 
@@ -65,7 +66,8 @@ def profile(request):
             return redirect('profile')
     else:
         form = Uploadindexphotoform(instance=request.user.profile)
-    return render(request, "main/profile.html", context={"form":form})
+    return render(request, "main/profile.html", context={"form":form,
+                                                         "pics":pics})
 
 def user_logout(request):
     logout(request)
