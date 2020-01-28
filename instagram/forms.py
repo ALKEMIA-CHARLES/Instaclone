@@ -23,8 +23,8 @@ class   LoggedinUserform(forms.ModelForm):
         fields = ("image",)
 class Uploadform(forms.ModelForm):
     class Meta:
-        model = Profile
-        fields = ['image', 'user', 'bio']
+        model = DBUSER
+        fields = ['image', 'caption']
 
 class Uploadindexphotoform(forms.ModelForm):
     class Meta:

@@ -6,17 +6,10 @@ from instagram.forms import Uploadform, Signupform, LoggedinUserform, Uploadinde
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
 
 # Create your views here.
-
-def index(request):
-    posts = DBUSER.objects.all()[::-1]
-    current_user = request.user
-    comments = Comments.objects.all()
-    return render(request, "main/index.html", context={"posts":posts,
-                                                       })
-
 
 class DbListView(ListView):
     model = DBUSER
@@ -27,6 +20,12 @@ class DbListView(ListView):
 class DbDetailView(DetailView):
     model = DBUSER
     template_name = 'main/detail.html'
+
+class DbCreateView(CreateView):
+    model = DBUSER
+    template_name = 'main/dbuser_form.html'
+    fields = ['image', 'caption']
+
 
 def search(request):
     if request.method == "GET":

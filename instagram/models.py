@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from pyuploadcare.dj.models import ImageField
 from PIL import Image
+from django.urls import reverse
 # Create your models here.
 
 class Profile(models.Model):
@@ -11,7 +12,6 @@ class Profile(models.Model):
     caption = models.TextField(blank=True)
     bio = models.TextField(max_length=700)
 
- 
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -32,16 +32,18 @@ class Profile(models.Model):
   
 class DBUSER(models.Model):
     name= models.CharField(max_length=100)
-    image = models.ImageField()
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     db_comment = models.CharField(max_length=100)
     likes = models.IntegerField(default=0)
     post_date = models.DateTimeField(auto_now_add=True)
+    caption = models.TextField(max_length=500, null=True)
     image_url = models.URLField(max_length=250)
     profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk':self.pk})
     def save_db_user(self):
         return self.save()
     def get_remote_image(self):
