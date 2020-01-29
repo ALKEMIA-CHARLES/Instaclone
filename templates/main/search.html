@@ -2,10 +2,10 @@
 {%block content%}
 <div class="container">
     <div class="card" style="width: 18rem;">
-        {%for dbuser in dbusers%}
+        {%for post in posts %}
         <div class="card-body">
-            <p>{{dbuser.name}}</p>
-             <img src="{{dbuser.image_url}}">
+            <p>{{post.name}}</p>
+             <img src="{{post.image.url}}">
         </div>
     </div>
     {%endfor%}

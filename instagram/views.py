@@ -1,41 +1,71 @@
 from django.shortcuts import render, redirect
-from instagram.models import DBUSER, Comments, Profile, Pictures
+from instagram.models import Profile, Comments,Pictures, Post
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from instagram.forms import Uploadform, Signupform, LoggedinUserform, Uploadindexphotoform
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from instagram.forms import Uploadindexphotoform
 
 # Create your views here.
 
 class DbListView(ListView):
-    model = DBUSER
+    model = Post
     template_name = 'main/index.html'
     context_object_name = 'posts'
     ordering = ['-post_date']
 
 class DbDetailView(DetailView):
-    model = DBUSER
+    model = Post
     template_name = 'main/detail.html'
 
-class DbCreateView(CreateView):
-    model = DBUSER
+class DbCreateView(LoginRequiredMixin, CreateView):
+    model = Post
     template_name = 'main/dbuser_form.html'
     fields = ['image', 'caption']
 
+    def form_valid(self, form):
+        form.instance.masterkey = self.request.user
+        return super().form_valid(form)
+
+class DbUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    template_name = 'main/dbuser_form.html'
+    fields = ['image', 'caption']
+    
+    def form_valid(self, form):
+        form.instance.masterkey = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.masterkey:
+            return True
+        return False
+
+class DbDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'main/post_confirm_delete.html'
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.masterkey:
+            return True
+        return False
 
 def search(request):
     if request.method == "GET":
         search_term = request.GET.get("search")
-        searched_db_users = DBUSER.search_dbuser_by_name(search_term)
-        results = len(searched_db_users)
+        searched_post = Post.search_post_by_name(search_term)
+        results = len(searched_post)
         message = "{}".format(search_term)
         
         return render(request, "main/search.html", context={"message":message,
-                                                            "dbusers":searched_db_users,
+                                                            "posts":searched_post,
                                                             "results":results})
     else:
         message = "You have not searched for any user"
