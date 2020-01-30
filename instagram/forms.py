@@ -1,8 +1,15 @@
 from django import forms
-from instagram.models import Post, Comments
+from instagram.models import Post, Comments, Profile
 from pyuploadcare.dj.forms import ImageField
+from django.contrib.auth.models import User
 
 class Uploadindexphotoform(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ['image', 'caption']
+        model = Profile
+        fields = ['image']
+
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta: 
+        model = User
+        fields = ['username']

@@ -1,24 +1,24 @@
 from django.shortcuts import render, redirect
-from instagram.models import Profile, Comments,Pictures, Post
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from instagram.models import Post,Pictures,Comments, Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from instagram.forms import Uploadindexphotoform
+from .forms import Uploadindexphotoform, UserUpdateForm
 
 # Create your views here.
 
-class DbListView(ListView):
+class DbListView(LoginRequiredMixin,ListView):
     model = Post
     template_name = 'main/index.html'
     context_object_name = 'posts'
     ordering = ['-post_date']
 
-class DbDetailView(DetailView):
+class DbDetailView(LoginRequiredMixin,DetailView):
     model = Post
     template_name = 'main/detail.html'
 
@@ -98,7 +98,6 @@ def profile(request):
         form = Uploadindexphotoform(instance=request.user.profile)
     return render(request, "main/profile.html", context={"form":form,
                                                          "pics":pics})
-
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse("user_login"))

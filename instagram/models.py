@@ -3,13 +3,36 @@ from django.contrib.auth.models import User
 from pyuploadcare.dj.models import ImageField
 from PIL import Image
 from django.urls import reverse
-# Create your models here.
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    print("=========================================[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]=")
+
+    if created:
+        Profile.objects.create(user=instance)
+        print("==========================================")
+
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
+
+
 
 class Post(models.Model):
     image= models.ImageField(default="default.jpg", upload_to="profile_pics")
-    name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100)
     caption = models.TextField(max_length=250)
-    likes = models.IntegerField(default=0, null=True)
+    likes = models.IntegerField(default=0,)
     post_date = models.DateTimeField(auto_now_add=True)
     masterkey = models.ForeignKey(User, on_delete=models.CASCADE)
     
@@ -25,35 +48,15 @@ class Post(models.Model):
 
 
 class Pictures(models.Model):
-    image_url = models.URLField(max_length=250, null=True)
-    caption = models.TextField(max_length=250, null=True)
-    post_date = models.DateTimeField(auto_now_add=True, null=True)
+    image_url = models.URLField(max_length=250)
+    caption = models.TextField(max_length=250)
+    post_date = models.DateTimeField(auto_now_add=True )
 
-    @classmethod
-    def show_pictures(cls):
-        return cls.objects.order_by("post_date")[::1]
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-
-    def __str__(self):
-        return f'{self.user.username} Profile'
-    
-    def save(self):
-        super().save()
-
-        img = Image.open(self.image.path)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
 
 class Comments(models.Model):
     comment = models.TextField(max_length=100)
-    picture = models.ForeignKey(Pictures, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    picture = models.ForeignKey(Pictures, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
    
 
     
