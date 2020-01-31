@@ -97,7 +97,8 @@ def profile(request):
     else:
         form = Uploadindexphotoform(instance=request.user.profile)
     return render(request, "main/profile.html", context={"form":form,
-                                                         "pics":pics})
+                                                         "pics":pics,
+                                                      })
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse("user_login"))
