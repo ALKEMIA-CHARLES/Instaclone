@@ -9,9 +9,9 @@
             <p>{{post.caption}}</p>
             <p>{{post.likes}}</p>
             <p> <a href="{% url 'post-comment' post.id %}">Comment on photo</a></p>
-            {{post.Comment}}
             {% for comment in post.comments_set.all %}
             {{comment.comment}}
+            <br>
             {%endfor%}
         </div>
     </div>
