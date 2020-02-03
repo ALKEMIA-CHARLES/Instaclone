@@ -13,3 +13,9 @@ class UserUpdateForm(forms.ModelForm):
     class Meta: 
         model = User
         fields = ['username']
+
+class CommentForm(forms.ModelForm):
+    
+    class Meta:
+        model = Comments
+        fields = ['comment']

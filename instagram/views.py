@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from instagram.models import Post,Pictures,Comments, Profile
@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import Uploadindexphotoform, UserUpdateForm
+from .forms import Uploadindexphotoform, UserUpdateForm, CommentForm
+from django.views.generic.edit import FormView
 
 # Create your views here.
 
@@ -57,6 +58,8 @@ class DbDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
+
 def search(request):
     if request.method == "GET":
         search_term = request.GET.get("search")
@@ -86,7 +89,7 @@ def register(request):
     return render(request, "auth/signup.html", context={'form': form})
 
 @login_required
-def profile(request):
+def profile(request): 
     pics = Pictures.objects.all()[::1]
     if request.method == "POST":
         form = Uploadindexphotoform(request.POST,request.FILES, instance=request.user.profile)
@@ -103,3 +106,17 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse("user_login"))
 
+def post_comments(request, postid):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        print(postid)
+        if form.is_valid():
+            c_form=form.save(commit=False)
+            c_form.post = get_object_or_404(Post,id=postid)
+            c_form.user=request.user
+            print(c_form)
+            c_form.save()
+            return redirect('index')
+    else:
+        form = CommentForm()
+    return render(request, "main/comment_form.html", context={"form":form, })

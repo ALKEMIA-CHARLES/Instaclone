@@ -54,10 +54,10 @@ class Pictures(models.Model):
 
 
 class Comments(models.Model):
-    comment = models.TextField(max_length=100)
-    picture = models.ForeignKey(Pictures, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=200)
+    post =  models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-   
+    
 
     
     def __str__(self):

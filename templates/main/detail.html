@@ -6,9 +6,10 @@
             <p>{{object.name}}</p>
             <img src="{{object.image.url}}">
             <p>{{ object.caption }}</p>
-              {% if object.masterkey == user %}
+            {% if object.masterkey == user %}
             <a href="{%  url 'post-update' object.id %}">Update</a>
             <a href="{%  url 'post-delete' object.id %}">Delete</a>
+
             {%endif%}
         </div>
     </div>
