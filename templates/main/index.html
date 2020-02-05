@@ -7,6 +7,7 @@
           style="color: white;">
           {{post.name}}</a></p>
       <img src="{{post.image.url}}" />
+      <p style="color: white;  font-family:'Kelly Slab', cursive; ">{{post.post_date}}</p>
       <p style="color: white; font-family:'Kelly Slab', cursive;">{{post.caption}}</p>
       <p style="color: white; font-family:'Kelly Slab', cursive; ">{{post.likes}}</p>
       <p><a href="{% url 'post-comment' post.id %}" style="color:black; font-family:'Kelly Slab',

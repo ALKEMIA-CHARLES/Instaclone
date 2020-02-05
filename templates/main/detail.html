@@ -5,6 +5,7 @@
         <div class="card-body" style="background-color: tomato;">
             <p style="color: white;font-family:'Kelly Slab', cursive; ">{{object.name}}</p>
             <img src="{{object.image.url}}">
+            <p style="color: white; font-family:'Kelly Slab', cursive;  ">{{object.post_date}}</p>
             <p style="color: white;  font-family:'Kelly Slab', cursive;">{{ object.caption }}</p>
             {% if object.masterkey == user %}
             <a href="{%  url 'post-update' object.id %}"
