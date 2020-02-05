@@ -5,12 +5,13 @@
 <div class="content-section">
     <form method="POST" enctype="multipart/form-data" >
         {%csrf_token%}
-        <fieldset class="form-group">
+        <fieldset class="form-group" style="color: white;  font-family:'Kelly Slab', cursive;">
             <legend class="border-bottom- mb-4">Upload a Photo</legend>
             {{form|crispy}}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-secondary" type="submit">Post</button>
+            <button class="btn btn-secondary" type="submit"
+                style="color: white;  font-family:'Kelly Slab', cursive;">Post</button>
         </div>
     </form>
 </div>

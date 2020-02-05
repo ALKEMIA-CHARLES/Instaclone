@@ -12,7 +12,8 @@
             position:absolute; bottom: 390px; right: 170px;">
             </div>
             <div class="media-body">
-                <h2 class="account-heading">{{ user.username }}</h2>
+                <h2 class="account-heading" style="color: white;  font-family:'Kelly Slab', cursive; ">
+                    {{ user.username }}</h2>
             </div>
         </div>
     </section>
@@ -20,7 +21,7 @@
         <div>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <fieldset class="form-group">
+                <fieldset class="form-group" style="color: white;  font-family:'Kelly Slab', cursive; ">
                     <legend class="border-bottom- mb-4">Change Profile Photo</legend>
                     {{ form|crispy }}
                 </fieldset>
@@ -32,7 +33,7 @@
     </section>
     <section>
         {% for pic in pics %}
-        <div class="card">
+        <div class="card" style="background-color: black;">
             <div class="card-body">
                 <div id="picbox">
                     <div id="row">

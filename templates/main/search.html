@@ -3,9 +3,9 @@
 <div class="container">
     <div class="card" style="width: 18rem;">
         {%for post in posts %}
-        <div class="card-body">
-            <p>{{post.name}}</p>
-             <img src="{{post.image.url}}">
+        <div class="card-body" style="background-color: tomato;">
+            <p style=" font-family:'Kelly Slab', cursive; color: white; ">{{post.name}}</p>
+             <img src="{{post.image.url}}" width="200" height="121">
         </div>
     </div>
     {%endfor%}

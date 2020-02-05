@@ -4,12 +4,13 @@
 <div class="content-section">
     <form method="POST">
         {%csrf_token%}
-        <fieldset class="form-group">
-            <legend class="border-bottom- mb-4">Add a comment</legend>
+        <fieldset class="form-group" style="font-family:'Kelly Slab', cursive;">
+            <legend class="border-bottom- mb-4" style="color: white;">Add a comment</legend>
             {{form}}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-secondary" type="submit">Submit Comment</button>
+            <button class="btn btn-secondary" type="submit"
+                style="color: white;font-family:'Kelly Slab', cursive;">Submit Comment</button>
         </div>
     </form>
 </div>

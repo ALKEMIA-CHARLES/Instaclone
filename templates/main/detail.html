@@ -2,13 +2,15 @@
 {%block content%}
 <div class="container">
     <div class="card">
-        <div class="card-body">
-            <p>{{object.name}}</p>
+        <div class="card-body" style="background-color: tomato;">
+            <p style="color: white;font-family:'Kelly Slab', cursive; ">{{object.name}}</p>
             <img src="{{object.image.url}}">
-            <p>{{ object.caption }}</p>
+            <p style="color: white;  font-family:'Kelly Slab', cursive;">{{ object.caption }}</p>
             {% if object.masterkey == user %}
-            <a href="{%  url 'post-update' object.id %}">Update</a>
-            <a href="{%  url 'post-delete' object.id %}">Delete</a>
+            <a href="{%  url 'post-update' object.id %}"
+                style="color: white;  font-family:'Kelly Slab', cursive;">Update</a>
+            <a href="{%  url 'post-delete' object.id %}"
+                style="color: white;   font-family:'Kelly Slab', cursive;">Delete</a>
 
             {%endif%}
         </div>
