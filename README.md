@@ -1,7 +1,7 @@
 ### PROJECT NAME
 * INSTATONNE (INSTAGRAM CLONE)
 ### AUTHOR NAME
-* TRACY OGUTU
+* CHARLES MTAWALI JR
 ### PROJECT DESCRIPTION
 * This project is a clone of the popular Instagram application.
 
